@@ -37,7 +37,10 @@ scheduloo.controller('scheduloo-controller', ['$scope', '$http', function($scope
 		var result = $http({
 			method: 'POST',
 			url: '/',
-			data: $scope.courses,
+			data: {
+				command: 'submit_course_list',
+				course: $scope.courses
+			}
 		});
 		result.success(function(data, status, headers, config) {
 			$scope.message = data;
