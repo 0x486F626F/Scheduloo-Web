@@ -25,11 +25,11 @@ def get_apikey(path = 'db/'):
 		print "Use key: " + str(result[0][0])
 		return str(result[0][0])
 
-def check_course(subject, catalog):
-	print subject, catalog
-	if len(subject) < 6 and len(catalog) < 5:
+def check_course(subject, catalog, courseDB):
+	if not(courseDB.course_opening(subject, catalog)):
+		return 'The course is not offered this term'
+	else:
 		return 'True'
-	return 'False'
 
 def make_rating_chart(course_list, courseDB):
 	section_list = []
@@ -50,7 +50,7 @@ def scheduloo(request):
 		body = json.loads(post_data)
 		if body['command'] == 'check_course':
 			return HttpResponse(check_course(body['course']['subject'],
-				body['course']['catalog']))
+				body['course']['catalog'], courseDB))
 		if body['command'] == 'submit_course_list':
 			return HttpResponse(make_rating_chart(body['course'], courseDB))
 
