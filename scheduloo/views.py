@@ -5,8 +5,9 @@ from django.views.decorators.csrf import csrf_exempt
 import os
 import json
 import sqlite3
-import uwaterlooapi
 import uwcoursedb
+import uwaterlooapi
+import scheduloo_core
 
 def get_apikey(path = 'db/'):
 	if not os.path.exists(path):
@@ -40,10 +41,11 @@ def make_rating_chart(course_list, courseDB):
 	return json.dumps(section_list)
 
 @csrf_exempt
-def scheduloo(request):
+def index(request):
 	courseDB = uwcoursedb.UWCourseDB(
 			1161, 
 			uwaterlooapi.UWaterlooAPI(api_key = get_apikey()))
+	tool = scheduloo_core.Scheduloo(courseDB)
 
 	if request.method == "POST":
 		post_data = request.body
@@ -53,5 +55,30 @@ def scheduloo(request):
 				body['course']['catalog']))
 		if body['command'] == 'submit_course_list':
 			return HttpResponse(make_rating_chart(body['course'], courseDB))
+		if body['command'] == 'search':
+			courses = []
+			ratings = []
+			for course in body['courses']:
+				courses.append([str(course['subject']), str(course['catalog'])])
+			for course in body['ratings']:
+				ratings.append([])
+				for component in course:
+					ratings[-1].append([])
+					for section in component:
+						ratings[-1][-1].append(int(section))
+			tool.set_courses(courses)
+			tool.set_solver(ratings)
+			result = tool.search_all(1000)
+			plan_list = []
+			for i in range(min(5, len(result))):
+				plan = result[i]
+				plan_list.append({})
+				plan_list[-1]['value'] = plan[1]
+				plan_list[-1]['courses'] = []
+				plan = sorted(plan[0], key = lambda Vertex: Vertex.name)
+				for section in plan:
+					plan_list[-1]['courses'].append(section.name)
+			return HttpResponse(json.dumps(plan_list))
+				
 
 	return render(request, 'scheduloo.html')

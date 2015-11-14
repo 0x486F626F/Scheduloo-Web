@@ -6,8 +6,9 @@ scheduloo.config(['$httpProvider', function($httpProvider) {
 }]);
 
 scheduloo.controller('scheduloo-controller', ['$scope', '$http', function($scope, $http) {
-	$scope.message = '233';
+	$scope.message = 'debug message';
 	$scope.courses = [];
+	$scope.sections = [];
 	$scope.add_course = function() {
 		var course = {
 			subject: new_course.subject.value,
@@ -53,11 +54,52 @@ scheduloo.controller('scheduloo-controller', ['$scope', '$http', function($scope
 			}
 		});
 		result.success(function(data, status, headers, config) {
-		//	$scope.message = data;
-			$scope.courses = [];
+			var cnt = 0;
+			$scope.sections = [];
+			for (i = 0; i < data.length; i ++) {
+				$scope.sections.push([]);
+				for (j = 0; j < data[i].length; j ++) {
+					$scope.sections[i].push([]);
+					for (k = 0; k < data[i][j].length; k ++) {
+						data[i][j][k] = $scope.courses[i].subject + ' ' + $scope.courses[i].catalog + ' ' + data[i][j][k];
+						$scope.sections[i][j].push({
+							name: data[i][j][k],
+							id: 'rating_chart' + cnt.toString()
+						});
+						cnt = cnt + 1;
+					}
+				}
+			}
 		});
 		result.error(function(data, status, headers, config) {
-		//	$scope.message = status;
+			//	$scope.message = status;
 		});
-	}
+	};
+	$scope.search = function() {
+		$scope.message = 'searching';
+		var ratings = [];
+		var idx = 0;
+		for (i = 0; i < $scope.sections.length; i ++) {
+			ratings.push([]);
+			for (j = 0; j < $scope.sections[i].length; j ++) {
+				ratings[i].push([])
+				for (k = 0; k < $scope.sections[i][j].length; k ++) {
+					ratings[i][j].push(eval('rating_chart' + idx.toString()).rating.value);
+					idx = idx + 1;
+				}
+			}
+		}
+		var result = $http({
+			method: 'POST',
+			url: '',
+			data: {
+				command: 'search',
+				courses: $scope.courses,
+				ratings: ratings
+			}
+		});
+		result.success(function(data, status, headers, config) {
+			$scope.message = data;
+		});
+	};
 }]);
