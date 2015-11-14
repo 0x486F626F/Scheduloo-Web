@@ -13,22 +13,32 @@ scheduloo.controller('scheduloo-controller', ['$scope', '$http', function($scope
 			subject: new_course.subject.value,
 			catalog: new_course.catalog.value
 		};
-		var result = $http({
-			method: 'POST',
-			url: '/',
-			data: {
-				command: 'check_course',
+		var toadd = true;
+		for (i = 0; i < $scope.courses.length; i ++) {
+			if (($scope.courses[i].subject == course.subject) &&
+				($scope.courses[i].catalog == course.catalog)) {
+				$scope.message = 'You already have this course!';
+				toadd = false;
+			}
+		}
+		if (toadd) {
+			var result = $http({
+				method: 'POST',
+				url: '/',
+				data: {
+					command: 'check_course',
 				course: course
-			}
-		});
-		result.success(function(data, status, headers, config) {
-			$scope.message = data;
-			if (data == 'True') {
-				$scope.courses.push(course);
-			}
-		});
-		result.error(function(data, status, headers, config) {
-		});
+				}
+			});
+			result.success(function(data, status, headers, config) {
+				//$scope.message = data;
+				if (data == 'True') {
+					$scope.courses.push(course);
+				}
+			});
+			result.error(function(data, status, headers, config) {
+			});
+		}
 	};
 	$scope.drop_course = function($index) {
 		$scope.courses.splice($index, 1);
@@ -40,11 +50,11 @@ scheduloo.controller('scheduloo-controller', ['$scope', '$http', function($scope
 			data: $scope.courses,
 		});
 		result.success(function(data, status, headers, config) {
-			$scope.message = data;
+		//	$scope.message = data;
 			$scope.courses = [];
 		});
 		result.error(function(data, status, headers, config) {
-			$scope.message = status;
+		//	$scope.message = status;
 		});
 	}
 }]);
