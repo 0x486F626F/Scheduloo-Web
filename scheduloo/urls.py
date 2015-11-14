@@ -16,5 +16,5 @@ Including another URLconf
 from django.conf.urls import include, url
 
 urlpatterns = [
-	url(r'^$', 'scheduloo.views.scheduloo', name='scheduloo'),
+	url(r'^$', 'scheduloo.views.index', name='index'),
 ]
