@@ -3,13 +3,12 @@
 <html>
 	<head>
         <title>Scheduloo</title>
+        <link rel="stylesheet" type="text/css" href="../static/css/templates.css">
         <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.5/angular.min.js"></script>
-        <script src="{% static "js/scheduloo.js" %}"></script>
-        
-
+		<script src="{% static "js/scheduloo.js" %}"></script>
 	</head>
 	<body  ng-app="scheduloo" ng-controller="scheduloo-controller">
-
+		<h1 ALIGN="center">Scheduloo</h1>
 		<p>
 		{% verbatim %}
 		{{ message }}
@@ -39,16 +38,15 @@
 			<div ng-repeat="section in sections" class="rating_chart">
 				<div ng-repeat="component in section">
 					<div ng-repeat="each in component">
-                        {% verbatim %}
+						{% verbatim %}
 						<form name='{{ each.id }}'>
-						{{ each.name }} <input name="rating" type='integer' value=0>
+							{{ each.name }} <input name="rating" type='integer' value=0>
 						</form>
-                        {% endverbatim %}
+						{% endverbatim %}
 					</div>
 				</div>
 			</div>
-            <button class="next-btn" ng-click="search()">give me a hint!</button>
+			<button class="next-btn" ng-click="search()">give me a hint!</button>
 		</div>
-
 	</body>
 </html>
