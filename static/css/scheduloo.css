@@ -19,3 +19,11 @@ div.step3{
     padding-right: 20px;
     text-align: center;
 }
+p.errmsg {
+    color: red;
+    text-align: center;
+}
+#suggestion-box {
+    padding-top: 50px;
+    padding-bottom: 50px;
+}

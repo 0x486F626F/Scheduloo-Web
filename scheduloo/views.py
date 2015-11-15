@@ -70,7 +70,7 @@ def index(request):
 			tool.set_solver(ratings)
 			result = tool.search_all(1000)
 			plan_list = []
-			for i in range(min(5, len(result))):
+			for i in range(min(6, len(result))):
 				plan = result[i]
 				plan_list.append({})
 				plan_list[-1]['value'] = plan[1]

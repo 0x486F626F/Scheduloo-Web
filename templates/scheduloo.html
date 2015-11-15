@@ -4,85 +4,92 @@
 	<head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Scheduloo</title>
-        
-        <link rel="stylesheet" type="text/css" href="{% static "css/scheduloo.css" %}">
-        <link rel="stylesheet" type="text/css" href="{% static "css/normalize.css" %}">
-        <link rel="stylesheet" type="text/css" href="{% static "css/foundation.css" %}">
+		<title>Scheduloo</title>
 
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-        <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.5/angular.min.js"></script>
-        
+		<link rel="stylesheet" type="text/css" href="{% static "css/scheduloo.css" %}">
+		<link rel="stylesheet" type="text/css" href="{% static "css/normalize.css" %}">
+		<link rel="stylesheet" type="text/css" href="{% static "css/foundation.css" %}">
+
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+		<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.5/angular.min.js"></script>
+
 		<script src="{% static "js/scheduloo.js" %}"></script>
-        <script src="{% static "js/rangeslider.min.js" %}"></script>
-        <script src="{% static "js/foundation.min.js" %}"></script>
-        <script src="{% static "js/vendor/modernizr.js" %}"></script>
-        
-	</head>
-	<body  ng-app="scheduloo" ng-controller="scheduloo-controller">
+		<script src="{% static "js/rangeslider.min.js" %}"></script>
+		<script src="{% static "js/foundation.min.js" %}"></script>
+		<script src="{% static "js/vendor/modernizr.js" %}"></script>
+
+		</head>
+		<body  ng-app="scheduloo" ng-controller="scheduloo-controller">
 		<h1 ALIGN="center">Scheduloo</h1>
 		<div class="step1" ng-hide="step1">
 			<div ng-repeat="course in courses" class="course-list"> 
 				<div class="row"> 
-				{% verbatim %}
-                <div class="row">
-				<div class="large-9 columns" style="font-size:32px"> {{ course.subject }} {{ course.catalog }} </div>
-                <div class="large-3 columns"> <button class="button round" ng-click="drop_course($index)">drop</button> </div>
-                </div>
-				{% endverbatim %}
-                    </div>
-				
+					{% verbatim %}
+					<div class="row">
+						<div class="small-8 large-8 columns" style="font-size:24px"> {{ course.subject }} {{ course.catalog }} </div>
+						<div class="small-4 large-4 columns"> <button class="button round" ng-click="drop_course($index)">drop</button> </div>
+					</div>
+					{% endverbatim %}
+				</div>
+
 			</div>
 
 			<form name="new_course">
-                <div class="row">
-				<div class="small-6 large-5 columns"><input name="subject" type='text'></div>
-				<div class="small-6 large-5 columns"><input name="catalog" type='text'></div>
-                <div class="small-12 large-2 columns"><button class="button" ng-click="add_course()">add</button></div>
+				<div class="row">
+					<div class="small-4 large-5 columns"><input name="subject" type='text'></div>
+					<div class="small-4 large-5 columns"><input name="catalog" type='text'></div>
+					<div class="small-4 large-2 columns"><button class="button round" ng-click="add_course()">add</button></div>
 				</div>
 			</form>
-                
-                <button class="button expand" ng-click="step1_step2(); step1=true; step2=true">next</button>
-            
+
+			<button class="button expand" ng-click="step1_step2(); step1=true; step2=true">next</button>
 
 		</div>
 
 
 		<div class="step2" ng-show="step2">
+			<div class="row">
+				<div class="small-6 large-6 columns" style="font-size:20px"> Rate sections </div>
+				<div class="small-6 large-6 columns" style="font-size:20px"> Low---High </div>
+			</div>
 			<div ng-repeat="section in sections" class="rating_chart">
 				<div ng-repeat="component in section">
 					<div ng-repeat="each in component">
 						{% verbatim %}
 						<form name='{{ each.id }}'>
-                            <div class="row">
-                                <div class="large-6 columns"  style="font-size:20px"> {{ each.name }} </div>
-                                
-                                <div class="large-6 columns"> <input name="rating" type="range" min="1" max="100" step="10" value="30">  </div>
-                            </div>
+							<div class="row">
+								<div class="small-6 large-6 columns"  style="font-size:20px"> {{ each.name }} </div>
+
+								<div class="small-6 large-6 columns"> <input name="rating" type="range" min="1" max="100" step="10" value="30">  </div>
+							</div>
 						</form>
 						{% endverbatim %}
 					</div>
 				</div>
 			</div>
-            <ul class="button-group round">
-			<button class="button" ng-click="step1=false; step2=false">back</button>
-			<button class="button" ng-click="search(); step1=true; step2=false; step3=true">Scheduloo</button>
-            </ul>
-		</div>
-        
-		<div class="step3" ng-show="step3">
-			<p>
-			{% verbatim %}
-			{{ message }}
-			{% endverbatim %}
-			</p>
-            <ul class="button-group round">
-			<button class="button" ng-click="step1=true; step2=true; step3=false">back</button>
-			<button class="button" ng-click="step1=false; step2=false; step3=false">Start Over</button>
-                </ul>
+			<ul class="button-group round">
+				<button class="button" ng-click="step1=false; step2=false">back</button>
+				<button class="button" ng-click="search(); step1=true; step2=false; step3=true">Scheduloo</button>
+			</ul>
 		</div>
 
-        <script>$('input[type="range"]').rangeslider();</script>
-        <script>$(document).foundation();</script>
-	</body>
-</html>
+		<div class="step3" ng-show="step3">
+            <div class="row">
+			<div class="small-12 large-4 columns" id="suggestion-box" ng-repeat="suggestion in suggestions">
+                <div ng-repeat="course in suggestion">
+                    <p>{% verbatim %}{{ course }}{% endverbatim %}</p>
+                </div>
+            </div>
+            </div>
+			<ul class="button-group round">
+				<button class="button" ng-click="step1=true; step2=true; step3=false">back</button>
+				<button class="button" ng-click="step1=false; step2=false; step3=false">Start Over</button>
+			</ul>
+		</div>
+            
+        <p class="errmsg">{% verbatim %}{{ message }}{% endverbatim %}</p>
+
+		<script>$('input[type="range"]').rangeslider();</script>
+		<script>$(document).foundation();</script>
+		</body>
+		</html>

@@ -6,10 +6,12 @@ scheduloo.config(['$httpProvider', function($httpProvider) {
 }]);
 
 scheduloo.controller('scheduloo-controller', ['$scope', '$http', function($scope, $http) {
-	$scope.message = 'debug message';
+	$scope.message = '';
 	$scope.courses = [];
 	$scope.sections = [];
+    $scope.suggestions = [];
 	$scope.add_course = function() {
+        $scope.message = '';
 		var course = {
 			subject: new_course.subject.value,
 			catalog: new_course.catalog.value
@@ -47,13 +49,16 @@ scheduloo.controller('scheduloo-controller', ['$scope', '$http', function($scope
 				}
 			});
 			result.error(function(data, status, headers, config) {
+                $scope.message = 'Connection Error';
 			});
 		}
 	};
 	$scope.drop_course = function($index) {
+        $scope.message = '';
 		$scope.courses.splice($index, 1);
 	}
 	$scope.step1_step2 = function() {
+        $scope.message = '';
 		var result = $http({
 			method: 'POST',
 			url: '/',
@@ -81,11 +86,11 @@ scheduloo.controller('scheduloo-controller', ['$scope', '$http', function($scope
 			}
 		});
 		result.error(function(data, status, headers, config) {
-			//	$scope.message = status;
+			$scope.message = 'Connection Error';
 		});
 	};
 	$scope.search = function() {
-		$scope.message = 'searching';
+        $scope.message = '';
 		var ratings = [];
 		var idx = 0;
 		for (i = 0; i < $scope.sections.length; i ++) {
@@ -108,7 +113,13 @@ scheduloo.controller('scheduloo-controller', ['$scope', '$http', function($scope
 			}
 		});
 		result.success(function(data, status, headers, config) {
-			$scope.message = data;
+            $scope.suggestions = [];
+			for(i = 0; i < data.length; i ++) {
+                $scope.suggestions.push(data[i]['courses']);
+            }
 		});
+        result.error(function(data, status, headers, config) {
+            $scope.message = 'Connection Error';
+        });
 	};
 }]);
