@@ -9,12 +9,7 @@
 	</head>
 	<body  ng-app="scheduloo" ng-controller="scheduloo-controller">
 		<h1 ALIGN="center">Scheduloo</h1>
-		<p>
-		{% verbatim %}
-		{{ message }}
-		{% endverbatim %}
-		</p>
-		<div class='step1'>
+		<div class="step1" ng-hide="step1">
 			<div ng-repeat="course in courses" class="course-list"> 
 				<p class="id"> 
 				{% verbatim %}
@@ -29,12 +24,11 @@
 				<input name="catalog" type='text'>
 				<button class="add-btn" ng-click="add_course()">add</button>
 			</form>
-
-			<button class="next-btn" ng-click="step1_step2()">next</button>
-
+			<button class="next-btn" ng-click="step1_step2(); step1=true; step2=true">next</button>
 		</div>
 
-		<div class='step2'>
+
+		<div class="step2" ng-show="step2">
 			<div ng-repeat="section in sections" class="rating_chart">
 				<div ng-repeat="component in section">
 					<div ng-repeat="each in component">
@@ -46,7 +40,17 @@
 					</div>
 				</div>
 			</div>
-			<button class="next-btn" ng-click="search()">give me a hint!</button>
+			<button class="back-btn" ng-click="step1=false; step2=false">back</button>
+			<button class="next-btn" ng-click="search(); step1=true; step2=false; step3=true">give me a hint!</button>
+		</div>
+		<div class="step3" ng-show="step3">
+			<p>
+			{% verbatim %}
+			{{ message }}
+			{% endverbatim %}
+			</p>
+			<button class="back-btn" ng-click="step1=true; step2=true; step3=false">back</button>
+			<button class="next-btn" ng-click="step1=false; step2=false; step3=false">Do another Schedule!</button>
 		</div>
 	</body>
 </html>
