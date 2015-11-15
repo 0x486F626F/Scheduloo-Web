@@ -3,27 +3,33 @@
 <html>
 	<head>
         <title>Scheduloo</title>
+        <link rel="stylesheet" type="text/css" href="../static/css/templates.css">
         <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.5/angular.min.js"></script>
         <script src="{% static "js/scheduloo.js" %}"></script>
 	</head>
 	<body  ng-app="scheduloo" ng-controller="scheduloo-controller">
+        <h1 ALIGN="center">Scheduloo</h1>
         <div class='step1'>
-            <div ng-repeat="course in courses" class="course-list"> 
+            <div ng-repeat="course in courses" class="course-list" id="board"> 
                 <p class="id"> 
                     {% verbatim %}
                     {{ course.subject }} {{ course.catalog }}
                     {% endverbatim %}
-                <button class="drop-btn" ng-click="drop_course($index)">drop</button>
+                    <button class="drop-btn" ng-click="drop_course($index)">Drop</button>
                 </p>
             </div>
             
             <form name="new_course">
-                <input name="subject" type='text'>
-                <input name="catalog" type='text'>
-                <button class="add-btn" ng-click="add_course()">add</button>
+                <label>Class Number: 
+                <input name="subject" type='text' id="subject" required>
+                <input name="catalog" type='text' id="catalog" required>
+                </label>
+                <button class="add-btn" ng-click="add_course()">Add</button>
             </form>
             
-            <button class="next-btn" ng-click="step1_step2()">next</button>
+            <br>
+            <br>
+            <button class="next-btn" ng-click="step1_step2()">Next</button>
 			<p>
             {% verbatim %}
 			{{ message }}

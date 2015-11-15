@@ -1,0 +1,71 @@
+h1{
+    font-size: 45px;
+    text-shadow:  2px 1px 10px yellow;
+    background-image: url("foundation.png");
+    background-repeat:repeat-x;
+    padding-top: 35px;
+    padding-bottom: 35px;
+    color: white;
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-bottom: 0px;
+}
+
+div#board{
+    width: 50%;
+    height: auto;
+    margin-left: auto;
+    margin-right: auto;
+    padding-top: 50px;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+    text-align: center;
+    background-color: white;
+    
+}
+
+div.step1{
+    background-color: rgba(46, 130, 158,0.5);
+    padding-top: 45px;
+    padding-bottom: 40px;
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-top: 0px;
+    text-align: center;
+}
+
+#subject{
+    height: 18px;
+    width: 40px;
+    font-size: 15px;
+    font-family: 'times new roman';
+}
+
+#catalog{
+    height: 18px;
+    width:60px;
+    font-size: 15px;
+    font-family: 'times new roman';
+}
+button{
+    height:25px;
+    background-color: #007399;
+    color: azure;
+    border: none;
+}
+button:hover{
+    background-color: #006080;
+}
+
+button.drop-btn{
+    float: right;
+    margin-right: 10px;
+}
+
+button.next-btn{
+    float: right;
+    margin-right: 30px;
+    height:35px;
+    width:60px;
+    font-size: 15px;
+}
