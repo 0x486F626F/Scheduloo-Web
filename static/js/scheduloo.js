@@ -34,7 +34,16 @@ scheduloo.controller('scheduloo-controller', ['$scope', '$http', function($scope
 			result.success(function(data, status, headers, config) {
 				//$scope.message = data;
 				if (data == 'True') {
-					$scope.courses.push(course);
+					for (i = 0; i < $scope.courses.length; i ++) {
+						if (($scope.courses[i].subject == course.subject) &&
+							($scope.courses[i].catalog == course.catalog)) {
+							$scope.message = 'You already have this course!';
+							toadd = false;
+						}
+					}
+					if(toadd) {
+						$scope.courses.push(course);
+					}
 				}
 			});
 			result.error(function(data, status, headers, config) {
