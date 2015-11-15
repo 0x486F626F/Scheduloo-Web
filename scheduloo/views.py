@@ -52,7 +52,6 @@ def make_rating_chart(course_list, courseDB):
 	for course in course_list:
 		section = courseDB.get_opening_sections(
 				course['subject'], course['catalog'])
-		print section
 		time_comp = []
 		for component in section:
 			time = []
@@ -97,8 +96,11 @@ def index(request):
 					ratings[-1].append([])
 					for section in component:
 						ratings[-1][-1].append(int(section))
+			print courses
 			tool.set_courses(courses)
+			print ratings
 			tool.set_solver(ratings)
+			print 'start'
 			result = tool.search_all(1000)
 			plan_list = []
 			for i in range(min(6, len(result))):
@@ -109,6 +111,7 @@ def index(request):
 				plan = sorted(plan[0], key = lambda Vertex: Vertex.name)
 				for section in plan:
 					plan_list[-1]['courses'].append(section.name)
+			print plan_list
 			return HttpResponse(json.dumps(plan_list))
 				
 
