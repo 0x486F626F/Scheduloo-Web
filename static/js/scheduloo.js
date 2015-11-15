@@ -47,6 +47,9 @@ scheduloo.controller('scheduloo-controller', ['$scope', '$http', function($scope
 						$scope.courses.push(course);
 					}
 				}
+                else {
+                    $scope.message = 'This course is not offering';
+                }
 			});
 			result.error(function(data, status, headers, config) {
                 $scope.message = 'Connection Error';
