@@ -73,15 +73,16 @@ scheduloo.controller('scheduloo-controller', ['$scope', '$http', function($scope
 		result.success(function(data, status, headers, config) {
 			var cnt = 0;
 			$scope.sections = [];
-			for (i = 0; i < data.length; i ++) {
+			for (i = 0; i < data[1].length; i ++) {
 				$scope.sections.push([]);
-				for (j = 0; j < data[i].length; j ++) {
+				for (j = 0; j < data[1][i].length; j ++) {
 					$scope.sections[i].push([]);
-					for (k = 0; k < data[i][j].length; k ++) {
-						data[i][j][k] = $scope.courses[i].subject + ' ' + $scope.courses[i].catalog + ' ' + data[i][j][k];
+					for (k = 0; k < data[1][i][j].length; k ++) {
+						data[1][i][j][k] = $scope.courses[i].subject + ' ' + $scope.courses[i].catalog + ' ' + data[1][i][j][k];
 						$scope.sections[i][j].push({
-							name: data[i][j][k],
-							id: 'rating_chart' + cnt.toString()
+							name: data[1][i][j][k],
+							id: 'rating_chart' + cnt.toString(),
+							time: data[0][i][j][k][0]
 						});
 						cnt = cnt + 1;
 					}

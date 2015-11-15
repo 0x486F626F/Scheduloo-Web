@@ -8,6 +8,7 @@ import sqlite3
 import uwcoursedb
 import uwaterlooapi
 import scheduloo_core
+import datetime
 
 def get_apikey(path = 'db/'):
 	if not os.path.exists(path):
@@ -32,13 +33,43 @@ def check_course(subject, catalog, courseDB):
 	else:
 		return 'True'
 
+def convert_array(time):
+	result = ""
+	for day in time:
+		if (day == 1): result = result + "Mon "
+		elif (day == 2): result = result + "Tue "
+		elif (day == 3): result = result + "Wed "
+		elif (day == 4): result = result + "Thu "
+		elif (day == 5): result = result + "Fri "
+		elif (day == 6): result = result + "Sat "
+		elif (day == 7): result = result + "Sun "
+	return result
+
+
 def make_rating_chart(course_list, courseDB):
 	section_list = []
+	time_list = []
 	for course in course_list:
 		section = courseDB.get_opening_sections(
 				course['subject'], course['catalog'])
+		print section
+		time_comp = []
+		for component in section:
+			time = []
+			for name in component:
+				weekly_event = []
+				schedule = courseDB.get_time_schedule(course['subject'], \
+						course['catalog'], name)
+				for event in schedule[0]:
+					event_time = convert_array(event[0]) + ' ' + str(event[1]) + \
+							'-' + str(event[2])
+					weekly_event.append(event_time)
+				time.append(weekly_event)
+			time_comp.append(time)
+		time_list.append(time_comp)
 		section_list.append(section)
-	return json.dumps(section_list)
+	result = [time_list, section_list]
+	return json.dumps(result)
 
 @csrf_exempt
 def index(request):
