@@ -23,19 +23,22 @@
 		<h1 ALIGN="center">Scheduloo</h1>
 		<div class="step1" ng-hide="step1">
 			<div ng-repeat="course in courses" class="course-list"> 
-				<p class="id"> 
+				<div class="row"> 
 				{% verbatim %}
-				{{ course.subject }} {{ course.catalog }}
+                <div class="row">
+				<div class="large-9 columns" style="font-size:32px"> {{ course.subject }} {{ course.catalog }} </div>
+                <div class="large-3 columns"> <button class="button round" ng-click="drop_course($index)">drop</button> </div>
+                </div>
 				{% endverbatim %}
-				<button class="button round" ng-click="drop_course($index)">drop</button>
-				</p>
+                    </div>
+				
 			</div>
 
 			<form name="new_course">
                 <div class="row">
-				<div class="small-2 large-4 columns"><input name="subject" type='text'></div>
-				<div class="small-4 large-4 columns"><input name="catalog" type='text'></div>
-                <div class="small-6 large-4 columns"><button class="button round" ng-click="add_course()">add</button></div>
+				<div class="small-6 large-5 columns"><input name="subject" type='text'></div>
+				<div class="small-6 large-5 columns"><input name="catalog" type='text'></div>
+                <div class="small-12 large-2 columns"><button class="button" ng-click="add_course()">add</button></div>
 				</div>
 			</form>
                 
@@ -51,14 +54,20 @@
 					<div ng-repeat="each in component">
 						{% verbatim %}
 						<form name='{{ each.id }}'>
-							{{ each.name }} <input name="rating" type="range" min="1" max="100" step="10" value="30">
+                            <div class="row">
+                                <div class="large-6 columns"  style="font-size:20px"> {{ each.name }} </div>
+                                
+                                <div class="large-6 columns"> <input name="rating" type="range" min="1" max="100" step="10" value="30">  </div>
+                            </div>
 						</form>
 						{% endverbatim %}
 					</div>
 				</div>
 			</div>
-			<button class="back-btn" ng-click="step1=false; step2=false">back</button>
-			<button class="next-btn" ng-click="search(); step1=true; step2=false; step3=true">Scheduloo</button>
+            <ul class="button-group round">
+			<button class="button" ng-click="step1=false; step2=false">back</button>
+			<button class="button" ng-click="search(); step1=true; step2=false; step3=true">Scheduloo</button>
+            </ul>
 		</div>
         
 		<div class="step3" ng-show="step3">
@@ -67,8 +76,10 @@
 			{{ message }}
 			{% endverbatim %}
 			</p>
-			<button class="back-btn" ng-click="step1=true; step2=true; step3=false">back</button>
-			<button class="next-btn" ng-click="step1=false; step2=false; step3=false">Start Over</button>
+            <ul class="button-group round">
+			<button class="button" ng-click="step1=true; step2=true; step3=false">back</button>
+			<button class="button" ng-click="step1=false; step2=false; step3=false">Start Over</button>
+                </ul>
 		</div>
 
         <script>$('input[type="range"]').rangeslider();</script>
